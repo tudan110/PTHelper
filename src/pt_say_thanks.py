@@ -32,8 +32,14 @@ from urllib.parse import urljoin
 import requests
 from dotenv import load_dotenv
 
+# 基础路径（项目根目录）
+BASE_DIR = Path(__file__).parent.parent
+
 # 加载环境变量
-load_dotenv('../config/config.env')
+env_path = BASE_DIR / "config" / "config.env"
+if not env_path.exists():
+    raise FileNotFoundError(f"配置文件不存在: {env_path}")
+load_dotenv(env_path)
 
 # 配置常量
 PT_DOMAIN = os.getenv('PT_DOMAIN', 'ptcafe.club')
@@ -45,7 +51,7 @@ REQUEST_DELAY = float(os.getenv('REQUEST_DELAY', 0.5))
 USER_AGENT = os.getenv('USER_AGENT', 'Mozilla/5.0')
 
 # 日志配置
-LOG_DIR = Path(__file__).parent.parent / 'logs'  # 获取脚本所在目录的上级目录中的logs
+LOG_DIR = BASE_DIR / 'logs'  # 获取脚本所在目录的上级目录中的logs
 LOG_FILE = LOG_DIR / 'pt_say_thanks.log'
 
 
